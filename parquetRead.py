@@ -1,7 +1,5 @@
 from pyspark import SQLContext, SparkConf, SparkContext
 from pyspark.sql.types import *
-import numpy as np
-
 
 #setting the configurations for the SparkConf object here
 conf = (SparkConf()
@@ -15,11 +13,20 @@ sc = SparkContext(conf = conf)
 #creating the sqlContext that will be used
 sqlContext = SQLContext(sc)
 
-#reading the parquet file?
+#reading the parquet file
+
+#Change this line to be the directory where the parquet file exists
 parquetFile = sqlContext.read.parquet('data/test2') 
+
+
 parquetFile.registerTempTable("parquetFile")
 
+#Queries are made from the base + command.
+
+#base SELECTS elements of what you are interested from WHERE 
 base = "SELECT * FROM parquetFile WHERE"
+
+#command is the query you make.
 command = ' ip_len >= 1500'
 test = sqlContext.sql(base + command)
 print test.show()
